@@ -3,58 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Predicting Declining Content from Search Performance Signals</title>
+
 <style>
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Times New Roman", Times, serif;
   line-height: 1.7;
   max-width: 950px;
   margin: auto;
   padding: 40px 25px;
   color: #222;
-  background: #f7f7f7;
+  background: #f4f6f8;
 }
+
 main {
   background: white;
   padding: 45px;
   border-radius: 12px;
 }
-h1 { font-size: 36px; line-height: 1.2; }
+
+h1 {
+  font-size: 36px;
+  line-height: 1.2;
+  color: #123a63;
+  margin-bottom: 12px;
+}
+
 h2 {
   margin-top: 45px;
-  border-bottom: 2px solid #ddd;
+  margin-bottom: 20px;
+  color: #123a63;
+  border-bottom: 2px solid #123a63;
   padding-bottom: 8px;
+  letter-spacing: 0.2px;
 }
-h3 { margin-top: 30px; }
-.subtitle { color: #666; font-size: 18px; }
+
+h3 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #1d4f7a;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #555;
+  font-size: 18px;
+  font-style: italic;
+}
+
 .card {
   background: #f3f5f7;
   padding: 20px;
   border-radius: 8px;
   margin: 20px 0;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
 }
+
 th, td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
 }
-th { background: #f0f0f0; }
+
+th {
+  background: #123a63;
+  color: white;
+  font-weight: 700;
+}
+
 code {
   background: #eee;
   padding: 2px 5px;
   border-radius: 4px;
 }
-a { color: #1769aa; }
-.small { color: #666; font-size: 14px; }
+
+a {
+  color: #1769aa;
+}
+
+.small {
+  color: #666;
+  font-size: 14px;
+}
+
+.section-label {
+  color: #123a63;
+  font-size: 22px;
+}
+
 </style>
 </head>
 
 <body>
+
 <main>
 
 <h1>Predicting Declining Content from Search Performance Signals</h1>
@@ -64,11 +113,15 @@ A decision-support analysis using anonymized FlyRank search-performance data
 </p>
 
 <div class="card">
-<strong>Abstract</strong>
+
+<strong class="section-label">Abstract</strong>
+
 <p>
 This study asks whether search-performance and content-freshness signals can identify content items that are likely to decline, so content teams can prioritize which items should be reviewed first. Using anonymized FlyRank internship warehouse data, March 2026 performance signals were used to construct a prediction snapshot and April 2026 performance was used only to define the future outcome. A decision-tree classifier was evaluated against a previously established rule-based baseline using a stratified held-out test set. The model achieved 0.819 accuracy, 0.680 precision, 0.647 recall, and 0.663 F1 on the held-out sample, compared with baseline precision of 0.495, recall of 0.533, and F1 of 0.513. The results provide a directional, decision-support signal for prioritizing content review rather than evidence of causality or guaranteed future performance.
 </p>
+
 </div>
+
 
 <h2>1. Introduction / Problem Statement</h2>
 
@@ -84,6 +137,7 @@ The decision supported by this analysis is content prioritization: which content
 The goal is not to prove why a page declines or to claim that refreshing a page will cause its performance to improve. Instead, the analysis tests whether measurable signals can provide a repeatable way to prioritize review work.
 </p>
 
+
 <h2>2. Data</h2>
 
 <p>
@@ -95,9 +149,25 @@ March 2026 daily performance data was used to construct the March 31, 2026 predi
 </p>
 
 <table>
-<tr><th>Dataset</th><th>Observations</th><th>Purpose</th></tr>
-<tr><td>March 2026</td><td>9,841,378</td><td>Prediction features</td></tr>
-<tr><td>April 2026</td><td>10,424,730</td><td>Future outcome label</td></tr>
+
+<tr>
+<th>Dataset</th>
+<th>Observations</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>March 2026</td>
+<td>9,841,378</td>
+<td>Prediction features</td>
+</tr>
+
+<tr>
+<td>April 2026</td>
+<td>10,424,730</td>
+<td>Future outcome label</td>
+</tr>
+
 </table>
 
 <p>
@@ -120,6 +190,7 @@ Current content metadata with timestamps after the prediction snapshot was exclu
 No client names, private URLs, search queries, credentials, or other identifying information are included in the paper outputs.
 </p>
 
+
 <h2>3. Methodology</h2>
 
 <h3>Prediction setup</h3>
@@ -141,12 +212,19 @@ An item is labelled as declining when April impressions are below 80% of the pre
 </p>
 
 <div class="card">
+
 <strong>Label distribution:</strong><br>
+
 331,436 total observations<br>
+
 240,262 non-declining<br>
+
 91,174 declining<br>
+
 Declining rate: 27.51%
+
 </div>
+
 
 <h3>Validation</h3>
 
@@ -162,34 +240,41 @@ The model was a Decision Tree Classifier with maximum depth 5. Performance was e
 Leakage checks were applied by constructing features from information available by the March 31 prediction snapshot and reserving April data for the future outcome.
 </p>
 
+
 <h2>4. Results</h2>
 
 <table>
+
 <tr>
 <th>Metric</th>
 <th>Baseline</th>
 <th>Decision Tree</th>
 </tr>
+
 <tr>
 <td>Precision</td>
 <td>0.495</td>
 <td>0.680</td>
 </tr>
+
 <tr>
 <td>Recall</td>
 <td>0.533</td>
 <td>0.647</td>
 </tr>
+
 <tr>
 <td>F1</td>
 <td>0.513</td>
 <td>0.663</td>
 </tr>
+
 <tr>
 <td>Accuracy</td>
 <td>Not available</td>
 <td>0.819</td>
 </tr>
+
 </table>
 
 <p>
@@ -204,16 +289,37 @@ The largest measured feature importance was 30-day impressions at 0.775, followe
 These importance values describe this fitted model and dataset. They should not be interpreted as causal effects or proof that impressions independently cause future decline.
 </p>
 
+
 <h2>5. Limitations &amp; Honest Framing</h2>
 
 <ul>
-<li>The outcome is defined using a threshold on future impressions and is therefore a constructed prediction target rather than a direct measurement of content quality.</li>
-<li>The validation uses a held-out stratified sample rather than a full production-time deployment evaluation.</li>
-<li>The model is a relatively simple decision tree and may not capture more complex relationships.</li>
-<li>Feature importance is model-specific and should not be interpreted as causal evidence.</li>
-<li>The analysis covers the March-to-April 2026 observation window and may not generalize to other periods or populations.</li>
-<li>The results are observed and directional. They support content-review prioritization but do not establish that refreshing content will cause improved search performance.</li>
+
+<li>
+The outcome is defined using a threshold on future impressions and is therefore a constructed prediction target rather than a direct measurement of content quality.
+</li>
+
+<li>
+The validation uses a held-out stratified sample rather than a full production-time deployment evaluation.
+</li>
+
+<li>
+The model is a relatively simple decision tree and may not capture more complex relationships.
+</li>
+
+<li>
+Feature importance is model-specific and should not be interpreted as causal evidence.
+</li>
+
+<li>
+The analysis covers the March-to-April 2026 observation window and may not generalize to other periods or populations.
+</li>
+
+<li>
+The results are observed and directional. They support content-review prioritization but do not establish that refreshing content will cause improved search performance.
+</li>
+
 </ul>
+
 
 <h2>6. Ranked Recommendations</h2>
 
@@ -222,39 +328,113 @@ The model was used to rank held-out test observations by predicted probability o
 </p>
 
 <table>
+
 <tr>
 <th>Rank</th>
-<th>Client ID</th>
-<th>Content ID</th>
 <th>Predicted decline probability</th>
 <th>Observed decline</th>
-<th>March impressions</th>
+<th>Impressions (30d)</th>
 </tr>
 
-<tr><td>1</td><td>client_23a62021009f63c4</td><td>content_573804af4f4fa09f</td><td>0.841</td><td>Yes</td><td>74,086</td></tr>
-<tr><td>2</td><td>client_23a62021009f63c4</td><td>content_1ae5eb3539e7ad9e</td><td>0.841</td><td>Yes</td><td>61,332</td></tr>
-<tr><td>3</td><td>client_62f4a7e64f5e0096</td><td>content_bb2a9972810ddd72</td><td>0.841</td><td>Yes</td><td>53,805</td></tr>
-<tr><td>4</td><td>client_23a62021009f63c4</td><td>content_b77c09e114e0ed4c</td><td>0.841</td><td>Yes</td><td>47,736</td></tr>
-<tr><td>5</td><td>client_23a62021009f63c4</td><td>content_f8c0566c8f017176</td><td>0.841</td><td>Yes</td><td>43,138</td></tr>
-<tr><td>6</td><td>client_62f4a7e64f5e0096</td><td>content_0c5606abaaab3178</td><td>0.841</td><td>Yes</td><td>38,865</td></tr>
-<tr><td>7</td><td>client_23a62021009f63c4</td><td>content_a12d89af10c7513a</td><td>0.841</td><td>Yes</td><td>36,535</td></tr>
-<tr><td>8</td><td>client_23a62021009f63c4</td><td>content_e70886c63f95aa1c</td><td>0.841</td><td>Yes</td><td>32,715</td></tr>
-<tr><td>9</td><td>client_62f4a7e64f5e0096</td><td>content_48cb9501333b94af</td><td>0.841</td><td>Yes</td><td>29,837</td></tr>
-<tr><td>10</td><td>client_23a62021009f63c4</td><td>content_3455e711fb9ed498</td><td>0.841</td><td>Yes</td><td>29,822</td></tr>
+<tr>
+<td>1</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>74,086</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>61,332</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>53,805</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>47,736</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>43,138</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>38,865</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>36,535</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>32,715</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>29,837</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>0.841</td>
+<td>Yes</td>
+<td>29,822</td>
+</tr>
+
 </table>
 
 <p>
 All 10 items in this held-out top-10 sample were subsequently observed to meet the decline definition. This is an observed result for this particular held-out sample, not a guarantee of future performance.
 </p>
 
+
 <h3>Action playbook</h3>
 
 <ol>
-<li><strong>Review first:</strong> high predicted decline probability combined with substantial recent search impressions.</li>
-<li><strong>Investigate the signal:</strong> examine recent performance movement and determine whether the item warrants editorial, technical, or metadata review.</li>
-<li><strong>Prioritize carefully:</strong> use the ranking as a queue for human review rather than an automatic refresh command.</li>
-<li><strong>Monitor after action:</strong> future performance should be measured separately to determine whether the observed trend changes.</li>
+
+<li>
+<strong>Review first:</strong> high predicted decline probability combined with substantial recent search impressions.
+</li>
+
+<li>
+<strong>Investigate the signal:</strong> examine recent performance movement and determine whether the item warrants editorial, technical, or metadata review.
+</li>
+
+<li>
+<strong>Prioritize carefully:</strong> use the ranking as a queue for human review rather than an automatic refresh command.
+</li>
+
+<li>
+<strong>Monitor after action:</strong> future performance should be measured separately to determine whether the observed trend changes.
+</li>
+
 </ol>
+
 
 <h2>7. Reproducibility</h2>
 
@@ -263,26 +443,31 @@ The analysis notebook and generated artifacts are available in the project repos
 </p>
 
 <ul>
+
 <li>
 <a href="https://github.com/fatimahmahmood/flyrank_ml_internship">
 GitHub repository
 </a>
 </li>
+
 <li>
 <a href="https://github.com/fatimahmahmood/flyrank_ml_internship/tree/main/work/notebooks">
 Capstone notebooks
 </a>
 </li>
+
 <li>
 <a href="https://github.com/fatimahmahmood/flyrank_ml_internship/tree/main/work/outputs">
 Capstone output artifacts
 </a>
 </li>
+
 </ul>
 
 <p>
 The repository contains the analysis notebook, model results, feature-importance output, and ranked recommendation output used for this paper.
 </p>
+
 
 <h2>8. Acknowledgments &amp; Data Credit</h2>
 
@@ -303,7 +488,9 @@ The dataset and analysis are used for educational and internship purposes. The f
 </p>
 
 <p>
-<a href="https://flyrank.ai">FlyRank</a>
+<a href="https://flyrank.ai">
+FlyRank
+</a>
 </p>
 
 <hr>
@@ -313,5 +500,6 @@ Capstone research paper — FlyRank AI Internship
 </p>
 
 </main>
+
 </body>
 </html>
